@@ -1,0 +1,57 @@
+/* --- VARIABLES AND MIXINS --- */
+
+/*
+** VARIABLES
+*/
+
+// Color Libraries
+
+
+// Font
+
+
+/*
+** MIXINS
+*/
+
+@mixin font-smoothing() {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+@mixin all-transition() {
+	-webkit-transition: all 0.25s ease-in-out;
+	-moz-transition: all 0.25s ease-in-out;
+	-o-transition: all 0.25s ease-in-out;
+	-ms-transition: all 0.25s ease-in-out;
+	transition: all 0.25s ease-in-out;
+}
+
+@mixin centered() {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	@include transform(translateX(-50%)translateY(-50%));
+}
+
+@mixin word-wrap() {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-ms-word-break: break-all;
+	word-break: break-word;
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
+}
+
+@function calculateRem($size) {
+	$remSize: $size / 16px;
+	@return $remSize * 1rem;
+}
+
+@mixin font-size-sass($size) {
+	font-size: $size;
+	font-size: calculateRem($size);
+}
