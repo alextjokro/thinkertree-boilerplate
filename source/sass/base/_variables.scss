@@ -1,8 +1,6 @@
-/* --- VARIABLES AND MIXINS --- */
-
-/*
-** VARIABLES
-*/
+// ----------------------------------------
+// VARIABLES
+// ----------------------------------------
 
 // Color Libraries
 
@@ -10,9 +8,9 @@
 // Font
 
 
-/*
-** MIXINS
-*/
+// ----------------------------------------
+// MIXINS
+// ----------------------------------------
 
 @mixin font-smoothing() {
 	-webkit-font-smoothing: antialiased;
