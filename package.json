@@ -1,0 +1,22 @@
+{
+  "name": "thinkertree-boilerplate",
+  "version": "1.0.0",
+  "description": "Boilerplate template for WP sites",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alextjokro/thinkertree-boilerplate.git"
+  },
+  "author": "Alex Tjokro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alextjokro/thinkertree-boilerplate/issues"
+  },
+  "homepage": "https://github.com/alextjokro/thinkertree-boilerplate#readme",
+  "devDependencies": {
+    "gulp": "^4.0.0"
+  }
+}
