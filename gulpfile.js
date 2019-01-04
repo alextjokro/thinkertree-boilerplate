@@ -22,3 +22,10 @@ gulp.task('build-css', function() {
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('public/stylesheets/'));
 });
+
+// ----------------------------------------
+// WATCH TASKS
+// ----------------------------------------
+gulp.task('watch', function() {
+	gulp.watch('source/sass/**/*.scss', ['build-css']);
+});
