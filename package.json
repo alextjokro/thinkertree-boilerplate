@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/alextjokro/thinkertree-boilerplate#readme",
   "devDependencies": {
+    "browser-sync": "^2.26.3",
     "gulp": "^4.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-sass": "^4.0.2",
