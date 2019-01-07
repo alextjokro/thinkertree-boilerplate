@@ -6,6 +6,7 @@
 const 	gulp = require('gulp'),
 		sass = require('gulp-sass'),
 		plumber = require('gulp-plumber'),
+		rev = require('gulp-rev'), // Static asset revisioning by appending content hash to filenames
 		sourcemaps = require('gulp-sourcemaps'),
 		jshint = require('gulp-jshint'),
 		stylish = require('jshint-stylish'),
@@ -19,28 +20,29 @@ const 	gulp = require('gulp'),
 // ----------------------------------------
 
 // Build CSS/Sass/SCSS
-gulp.task('build-css', function() {
+gulp.task('build-css', () => 
 	return gulp
 		.src(['node_modules/bootstrap/scss/bootstrap.scss',
 			  'source/sass/**/*.scss'])
 		.pipe(sourcemaps.init()) // Process the original sources
 		.pipe(plumber()) // Used to display error on Gulp Watch
 		.pipe(sass().on('error', sass.logError))
+		.pipe(rev())
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('public/stylesheets/'))
 		.pipe(browserSync.stream()); // notify the browser of changes
-});
+);
 
 //JS Hint task
-gulp.task('jshint', function() {
+gulp.task('jshint', () => 
 	return gulp
 		.src('source/javascripts/**/*.js')
 		.pipe(jshint())
 		.pipe(jshint.reporter(stylish));
-});
+);
 
 // Build JS
-gulp.task('build-js', function() {
+gulp.task('build-js', () => 
 	return gulp
 		.src(['node_modules/jquery/dist/jquery.min.js', 
 			  'node_modules/bootstrap/dist/js/bootstrap.min.js',
@@ -56,19 +58,19 @@ gulp.task('build-js', function() {
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('public/javascripts/'))
 		.pipe(browserSync.stream()); // notify the browser of changes
-});
+);
 
 // ----------------------------------------
 // SERVE TASKS
 // ----------------------------------------
-gulp.task('serve', gulp.series(gulp.parallel('build-css', 'jshint', 'build-js')), function serve () {
+gulp.task('serve', gulp.series(gulp.parallel('build-css', 'jshint', 'build-js')), serve = () => 
 	browserSync.init({
 		server: './source'
 	});
 
 	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], ['build-css']);
 	gulp.watch('*.php').on('change', browserSync.reload);
-});
+);
 
 // ----------------------------------------
 // DEFAULT TASKS
