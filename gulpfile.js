@@ -3,15 +3,16 @@
 // ----------------------------------------
 // REQUIRED
 // ----------------------------------------
-var gulp = require('gulp'),
-	sass = require('gulp-sass'),
-	plumber = require('gulp-plumber'),
-	sourcemaps = require('gulp-sourcemaps'),
-	jshint = require('gulp-jshint'),
-	concat = require('gulp-concat'),
-	rename = require('gulp-rename'),
-	uglify = require('gulp-uglify'),
-	browserSync = require('browser-sync').create(); // will setup a static server and reload browser as we save files
+const 	gulp = require('gulp'),
+		sass = require('gulp-sass'),
+		plumber = require('gulp-plumber'),
+		sourcemaps = require('gulp-sourcemaps'),
+		jshint = require('gulp-jshint'),
+		stylish = require('jshint-stylish'),
+		concat = require('gulp-concat'),
+		rename = require('gulp-rename'),
+		uglify = require('gulp-uglify'),
+		browserSync = require('browser-sync').create(); // will setup a static server and reload browser as we save files
 
 // ----------------------------------------
 // SCRIPT TASKS
@@ -35,7 +36,7 @@ gulp.task('jshint', function() {
 	return gulp
 		.src('source/javascripts/**/*.js')
 		.pipe(jshint())
-		.pipe(jshint.reporter('jshint-stylish'));
+		.pipe(jshint.reporter(stylish));
 });
 
 // Build JS
@@ -58,9 +59,9 @@ gulp.task('build-js', function() {
 });
 
 // ----------------------------------------
-// WATCH TASKS
+// SERVE TASKS
 // ----------------------------------------
-gulp.task('watch', ['build-css', 'jshint', 'build-js'], function() {
+gulp.task('serve', gulp.series(gulp.parallel('build-css', 'jshint', 'build-js')), function serve () {
 	browserSync.init({
 		server: './source'
 	});
@@ -74,4 +75,4 @@ gulp.task('watch', ['build-css', 'jshint', 'build-js'], function() {
 // ----------------------------------------
 
 // define the default task and add the watch task to it
-gulp.task('default', ['watch']);
+// gulp.task('default', ['serve']);
