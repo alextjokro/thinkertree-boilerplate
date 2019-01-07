@@ -6,7 +6,7 @@
 const 	gulp = require('gulp'),
 		sass = require('gulp-sass'),
 		plumber = require('gulp-plumber'),
-		rev = require('gulp-rev'), // Static asset revisioning by appending content hash to filenames
+		rev = require('gulp-rev'),
 		sourcemaps = require('gulp-sourcemaps'),
 		jshint = require('gulp-jshint'),
 		stylish = require('jshint-stylish'),
@@ -20,7 +20,7 @@ const 	gulp = require('gulp'),
 // ----------------------------------------
 
 // Build CSS/Sass/SCSS
-gulp.task('build-css', () => 
+gulp.task('build-css', function() {
 	return gulp
 		.src(['node_modules/bootstrap/scss/bootstrap.scss',
 			  'source/sass/**/*.scss'])
@@ -31,18 +31,18 @@ gulp.task('build-css', () =>
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('public/stylesheets/'))
 		.pipe(browserSync.stream()); // notify the browser of changes
-);
+});
 
 //JS Hint task
-gulp.task('jshint', () => 
+gulp.task('jshint', function() {
 	return gulp
 		.src('source/javascripts/**/*.js')
 		.pipe(jshint())
 		.pipe(jshint.reporter(stylish));
-);
+});
 
 // Build JS
-gulp.task('build-js', () => 
+gulp.task('build-js', function() {
 	return gulp
 		.src(['node_modules/jquery/dist/jquery.min.js', 
 			  'node_modules/bootstrap/dist/js/bootstrap.min.js',
@@ -58,23 +58,23 @@ gulp.task('build-js', () =>
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('public/javascripts/'))
 		.pipe(browserSync.stream()); // notify the browser of changes
-);
+});
 
 // ----------------------------------------
 // SERVE TASKS
 // ----------------------------------------
-gulp.task('serve', gulp.series(gulp.parallel('build-css', 'jshint', 'build-js')), serve = () => 
+gulp.task('serve', gulp.series(gulp.parallel('build-css', 'jshint', 'build-js')), function serve () {
 	browserSync.init({
 		server: './source'
 	});
 
 	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], ['build-css']);
 	gulp.watch('*.php').on('change', browserSync.reload);
-);
+});
 
 // ----------------------------------------
 // DEFAULT TASKS
 // ----------------------------------------
 
 // define the default task and add the watch task to it
-// gulp.task('default', ['serve']);
+gulp.task('default', gulp.series(gulp.parallel('serve')));
