@@ -7,6 +7,7 @@ const 	gulp = require('gulp'),
 		sass = require('gulp-sass'),
 		plumber = require('gulp-plumber'),
 		rev = require('gulp-rev'),
+		revRewrite = require('gulp-rev-rewrite'),
 		sourcemaps = require('gulp-sourcemaps'),
 		jshint = require('gulp-jshint'),
 		stylish = require('jshint-stylish'),
@@ -27,7 +28,7 @@ gulp.task('build-css', function() {
 		.pipe(sourcemaps.init()) // Process the original sources
 		.pipe(plumber()) // Used to display error on Gulp Watch
 		.pipe(sass().on('error', sass.logError))
-		.pipe(rev())
+		// .pipe(rev())
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('public/stylesheets/'))
 		.pipe(browserSync.stream()); // notify the browser of changes
@@ -50,7 +51,7 @@ gulp.task('build-js', function() {
 			  'source/javascripts/**/*.js'])
 		.pipe(sourcemaps.init()) // Process the original sources
 		.pipe(plumber()) // Used to display error on Gulp Watch
-		.pipe(concat('bundle.js'))
+		.pipe(concat({path: 'bundle.js', cwd: ''}))
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(uglify())
 		//only uglify if gulp is ran with '--type production'
