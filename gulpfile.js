@@ -29,7 +29,7 @@ gulp.task('build-css', function() {
 		.pipe(sass().on('error', sass.logError))
 		// .pipe(rev())
 		.pipe(sourcemaps.write()) // Add the map to modified source.
-		.pipe(gulp.dest('public/stylesheets/'))
+		.pipe(gulp.dest('dist/stylesheets/'))
 		.pipe(browserSync.stream()); // notify the browser of changes
 });
 
@@ -56,7 +56,7 @@ gulp.task('build-js', function() {
 		//only uglify if gulp is ran with '--type production'
 		// .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
 		.pipe(sourcemaps.write()) // Add the map to modified source.
-		.pipe(gulp.dest('public/javascripts/'))
+		.pipe(gulp.dest('dist/javascripts/'))
 		.pipe(browserSync.stream()); // notify the browser of changes
 });
 
