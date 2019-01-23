@@ -28,6 +28,9 @@ wp-content/plugins/hello.php
 # track readme.md in the root (i.e. do NOT ignore it)
 !readme.md
 
+# track .babelrc in the root (i.e. do NOT ignore it)
+!.babelrc
+
 # ignore all files that start with ~
 ~*
 
