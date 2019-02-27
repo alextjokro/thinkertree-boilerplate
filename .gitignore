@@ -30,6 +30,7 @@ wp-content/plugins/hello.php
 
 # track .babelrc in the root (i.e. do NOT ignore it)
 !.babelrc
+!gulpfile.babel.js
 
 # ignore all files that start with ~
 ~*
