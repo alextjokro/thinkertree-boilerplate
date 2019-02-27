@@ -16,6 +16,9 @@ import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
 // browserSync = require('browser-sync').create(); // will setup a static server and reload browser as we save files
 
+import yargs from 'yargs';
+const PRODUCTION = yargs.argv.prod;
+
 // ----------------------------------------
 // SCRIPT TASKS
 // ----------------------------------------
