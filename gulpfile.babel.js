@@ -9,6 +9,8 @@ import sass from 'gulp-sass';
 import plumber from 'gulp-plumber';
 import rev from 'gulp-rev';
 import sourcemaps from 'gulp-sourcemaps';
+import cleanCSS from 'gulp-clean-css'; // Minify CSS
+import gulpif from 'gulp-if';
 import jshint from 'gulp-jshint';
 import stylish from 'jshint-stylish';
 import concat from 'gulp-concat';
@@ -24,7 +26,8 @@ const PRODUCTION = yargs.argv.prod;
 // ----------------------------------------
 
 // Build CSS/Sass/SCSS
-gulp.task('build-css', function() {
+gulp.task('buildCSS', function() {
+// export const buildCSS = () => {
 	return gulp
 		.src(['node_modules/bootstrap/scss/bootstrap.scss',
 			  'source/sass/**/*.scss'])
@@ -32,13 +35,15 @@ gulp.task('build-css', function() {
 		.pipe(plumber()) // Used to display error on Gulp Watch
 		.pipe(sass().on('error', sass.logError))
 		// .pipe(rev())
+		.pipe(gulpif(PRODUCTION, cleanCSS({compatibility:'ie8'}))) // minify CSS only in PROD mode
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('dist/stylesheets/'))
-		.pipe(browserSync.stream()); // notify the browser of changes
+		// .pipe(browserSync.stream()); // notify the browser of changes
+// }
 });
 
 //JS Hint task
-gulp.task('jshint', function() {
+gulp.task('jsHint', function() {
 	return gulp
 		.src('source/javascripts/**/*.js')
 		.pipe(jshint())
@@ -46,7 +51,7 @@ gulp.task('jshint', function() {
 });
 
 // Build JS
-gulp.task('build-js', function() {
+gulp.task('buildJs', function() {
 	return gulp
 		.src(['node_modules/jquery/dist/jquery.min.js', 
 			  'node_modules/bootstrap/dist/js/bootstrap.min.js',
@@ -61,18 +66,18 @@ gulp.task('build-js', function() {
 		// .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('dist/javascripts/'))
-		.pipe(browserSync.stream()); // notify the browser of changes
+		// .pipe(browserSync.stream()); // notify the browser of changes
 });
 
 // ----------------------------------------
 // SERVE TASKS
 // ----------------------------------------
-gulp.task('serve', gulp.series(gulp.parallel('build-css', 'jshint', 'build-js')), function serve () {
-	browserSync.init({
-		server: './source'
-	});
+gulp.task('serve', gulp.series(gulp.parallel('buildCSS', 'jsHint', 'buildJs')), function serve () {
+	// browserSync.init({
+	// 	server: './source'
+	// });
 
-	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], ['build-css']);
+	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], ['buildCSS']);
 	gulp.watch('*.php').on('change', browserSync.reload);
 });
 
