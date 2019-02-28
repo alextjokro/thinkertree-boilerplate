@@ -120,7 +120,7 @@ add_action( 'widgets_init', 'thinkertree_boilerplate_widgets_init' );
  * Enqueue scripts and styles.
  */
 function thinkertree_boilerplate_scripts() {
-	wp_enqueue_style( 'thinkertree-boilerplate-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'thinkertree-boilerplate-style', get_stylesheet_uri() . '/dist/stylesheets/main.css', array(), '1.0.0', 'all' );
 
 	wp_enqueue_script( 'thinkertree-boilerplate-navigation', get_template_directory_uri() . '/source/javascripts/default/navigation.js', array(), '20151215', true );
 

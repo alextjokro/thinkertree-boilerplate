@@ -78,7 +78,7 @@ gulp.task('serve', gulp.series(gulp.parallel('buildCSS', 'jsHint', 'buildJs')), 
 	// });
 
 	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], ['buildCSS']);
-	gulp.watch('*.php').on('change', browserSync.reload);
+	// gulp.watch('*.php').on('change', browserSync.reload);
 });
 
 // ----------------------------------------
