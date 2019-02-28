@@ -18,7 +18,6 @@ import stylish from 'jshint-stylish';
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
-// browserSync = require('browser-sync').create(); // will setup a static server and reload browser as we save files
 
 import yargs from 'yargs';
 const PRODUCTION = yargs.argv.prod;
@@ -40,7 +39,6 @@ gulp.task('buildCSS', function() {
 		.pipe(gulpif(PRODUCTION, cleanCSS({compatibility:'ie8'}))) // minify CSS only in PROD mode
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('dist/stylesheets/'))
-		// .pipe(browserSync.stream()); // notify the browser of changes
 });
 
 //JS Hint task
@@ -67,19 +65,13 @@ gulp.task('buildJs', function() {
 		// .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('dist/javascripts/'))
-		// .pipe(browserSync.stream()); // notify the browser of changes
 });
 
 // ----------------------------------------
 // SERVE TASKS
 // ----------------------------------------
 gulp.task('serve', gulp.series(gulp.parallel('buildCSS', 'jsHint', 'buildJs')), function serve () {
-	// browserSync.init({
-	// 	server: './source'
-	// });
-
 	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], ['buildCSS']);
-	// gulp.watch('*.php').on('change', browserSync.reload);
 });
 
 // ----------------------------------------
