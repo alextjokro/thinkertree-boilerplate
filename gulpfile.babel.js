@@ -18,6 +18,7 @@ import stylish from 'jshint-stylish';
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
+import del from 'del';
 
 import yargs from 'yargs';
 const PRODUCTION = yargs.argv.prod;
@@ -88,6 +89,10 @@ gulp.task('syncFolder', function() {
 		)
 		.pipe(gulp.dest('dist'));
 });
+
+gulp.task('cleanDist', function() {
+	return del(['dist']);
+});	
 
 // ----------------------------------------
 // WATCH TASKS
