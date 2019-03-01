@@ -38,7 +38,7 @@ gulp.task('buildCSS', function() {
 		.pipe(gulpif(PRODUCTION, postcss([ autoprefixer ])))
 		.pipe(gulpif(PRODUCTION, cleanCSS({compatibility:'ie8'}))) // minify CSS only in PROD mode
 		.pipe(sourcemaps.write()) // Add the map to modified source.
-		.pipe(gulp.dest('dist/stylesheets/'))
+		.pipe(gulp.dest('dist/stylesheets/'));
 });
 
 //JS Hint task
@@ -60,18 +60,46 @@ gulp.task('buildJs', function() {
 		.pipe(plumber()) // Used to display error on Gulp Watch
 		.pipe(concat({path: 'bundle.js', cwd: ''}))
 		.pipe(rename({ suffix: '.min' }))
-		.pipe(uglify())
+		.pipe(gulpif(PRODUCTION, uglify()))
+		// .pipe(uglify())
 		//only uglify if gulp is ran with '--type production'
 		// .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
 		.pipe(sourcemaps.write()) // Add the map to modified source.
-		.pipe(gulp.dest('dist/javascripts/'))
+		.pipe(gulp.dest('dist/javascripts/'));
+});
+
+// Image compressions
+gulp.task('imageCompressions', function() {
+	return gulp
+		.src('source/images/**/*.{jpg,jpeg,png,svg,gif}')
+		.pipe(gulpif(PRODUCTION, imagemin()))
+    	.pipe(gulp.dest('dist/images'));
+});
+
+// Task to sync 'source' and 'dist' folder
+gulp.task('syncFolder', function() {
+	return gulp
+		.src(
+			[
+				'source/**/*',
+				'!source/{images,js,scss}',
+				'!source/{images,js,scss}/**/*'
+			]
+		)
+		.pipe(gulp.dest('dist'));
 });
 
 // ----------------------------------------
 // WATCH TASKS
 // ----------------------------------------
 gulp.task('watch', function() {
-	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], gulp.series('buildCSS'));
+	gulp.watch(
+		[
+			'node_modules/bootstrap/scss/bootstrap.scss', 
+			'source/sass/**/*.scss'
+		], 
+		gulp.series('buildCSS')
+	);
 	gulp.watch(
 		[
 			'node_modules/jquery/dist/jquery.min.js', 
@@ -80,6 +108,20 @@ gulp.task('watch', function() {
 		 	'source/javascripts/**/*.js'
 		],
 		gulp.series('jsHint', 'buildJs')
+	);
+	gulp.watch(
+		[
+			'source/images/**/*.{jpg,jpeg,png,svg,gif}'
+		],
+		gulp.series('imageCompressions')
+	);
+	gulp.watch(
+		[
+			'source/**/*',
+			'!source/{images,js,scss}',
+			'!source/{images,js,scss}/**/*'
+		],
+		gulp.series('syncFolder')
 	);
 });
 
