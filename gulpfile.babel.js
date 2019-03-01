@@ -38,6 +38,7 @@ gulp.task('buildCSS', function() {
 		.pipe(sass().on('error', sass.logError))
 		// .pipe(rev())
 		.pipe(gulpif(PRODUCTION, postcss([ autoprefixer ])))
+		.pipe(gulpif(PRODUCTION, rename({ suffix: '.min' })))
 		.pipe(gulpif(PRODUCTION, cleanCSS({compatibility:'ie8'}))) // minify CSS only in PROD mode
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('dist/stylesheets/'));
@@ -61,11 +62,8 @@ gulp.task('buildJs', function() {
 		.pipe(sourcemaps.init()) // Process the original sources
 		.pipe(plumber()) // Used to display error on Gulp Watch
 		.pipe(concat({path: 'bundle.js', cwd: ''}))
-		.pipe(rename({ suffix: '.min' }))
+		.pipe(gulpif(PRODUCTION, rename({ suffix: '.min' })))
 		.pipe(gulpif(PRODUCTION, uglify()))
-		// .pipe(uglify())
-		//only uglify if gulp is ran with '--type production'
-		// .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('dist/javascripts/'));
 });
@@ -84,8 +82,8 @@ gulp.task('syncFolder', function() {
 		.src(
 			[
 				'source/**/*',
-				'!source/{images,js,scss}',
-				'!source/{images,js,scss}/**/*'
+				'!source/{images,javascripts,sass,scss}',
+				'!source/{images,javascripts,sass,scss}/**/*'
 			]
 		)
 		.pipe(gulp.dest('dist'));
@@ -150,6 +148,5 @@ gulp.task('build', gulp.series('cleanDist', gulp.parallel('buildCSS', 'jsHint', 
 // ----------------------------------------
 // DEFAULT TASKS
 // ----------------------------------------
-
 // define the default task and add the watch task to it
 gulp.task('default', gulp.series(gulp.parallel('dev')));
