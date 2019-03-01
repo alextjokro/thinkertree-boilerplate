@@ -18,6 +18,7 @@ import stylish from 'jshint-stylish';
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
+import imagemin from 'gulp-imagemin';
 import del from 'del';
 
 import yargs from 'yargs';
@@ -131,6 +132,15 @@ gulp.task('watch', function() {
 });
 
 // ----------------------------------------
+// DEV & BUILD TASKS
+// ----------------------------------------
+// Dev task
+gulp.task('dev', gulp.series('cleanDist', gulp.parallel('buildCSS', 'jsHint', 'buildJs', 'imageCompressions', 'syncFolder'), 'watch'));
+
+// Build task
+gulp.task('build', gulp.series('cleanDist', gulp.parallel('buildCSS', 'jsHint', 'buildJs', 'imageCompressions', 'syncFolder')));
+
+// ----------------------------------------
 // SERVE TASKS
 // ----------------------------------------
 // gulp.task('serve', gulp.series(gulp.parallel('buildCSS', 'jsHint', 'buildJs')), function serve () {
@@ -142,4 +152,4 @@ gulp.task('watch', function() {
 // ----------------------------------------
 
 // define the default task and add the watch task to it
-gulp.task('default', gulp.series(gulp.parallel('watch')));
+gulp.task('default', gulp.series(gulp.parallel('dev')));
