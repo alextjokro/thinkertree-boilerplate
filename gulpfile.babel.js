@@ -27,7 +27,7 @@ const PRODUCTION = yargs.argv.prod;
 // ----------------------------------------
 
 // Build CSS/Sass/SCSS
-gulp.task('buildCSS', function buildCSS() {
+gulp.task('buildCSS', function() {
 	return gulp
 		.src(['node_modules/bootstrap/scss/bootstrap.scss',
 			  'source/sass/**/*.scss'])
@@ -42,7 +42,7 @@ gulp.task('buildCSS', function buildCSS() {
 });
 
 //JS Hint task
-gulp.task('jsHint', function jsHint() {
+gulp.task('jsHint', function() {
 	return gulp
 		.src('source/javascripts/**/*.js')
 		.pipe(jshint())
@@ -50,7 +50,7 @@ gulp.task('jsHint', function jsHint() {
 });
 
 // Build JS
-gulp.task('buildJs', function buildJs() {
+gulp.task('buildJs', function() {
 	return gulp
 		.src(['node_modules/jquery/dist/jquery.min.js', 
 			  'node_modules/bootstrap/dist/js/bootstrap.min.js',
@@ -70,8 +70,8 @@ gulp.task('buildJs', function buildJs() {
 // ----------------------------------------
 // WATCH TASKS
 // ----------------------------------------
-gulp.task('watch', function watch() {
-	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], buildCSS);
+gulp.task('watch', function() {
+	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], gulp.series('buildCSS'));
 	gulp.watch(
 		[
 			'node_modules/jquery/dist/jquery.min.js', 
