@@ -27,7 +27,7 @@ const PRODUCTION = yargs.argv.prod;
 // ----------------------------------------
 
 // Build CSS/Sass/SCSS
-gulp.task('buildCSS', function() {
+gulp.task('buildCSS', function buildCSS() {
 	return gulp
 		.src(['node_modules/bootstrap/scss/bootstrap.scss',
 			  'source/sass/**/*.scss'])
@@ -42,7 +42,7 @@ gulp.task('buildCSS', function() {
 });
 
 //JS Hint task
-gulp.task('jsHint', function() {
+gulp.task('jsHint', function jsHint() {
 	return gulp
 		.src('source/javascripts/**/*.js')
 		.pipe(jshint())
@@ -50,7 +50,7 @@ gulp.task('jsHint', function() {
 });
 
 // Build JS
-gulp.task('buildJs', function() {
+gulp.task('buildJs', function buildJs() {
 	return gulp
 		.src(['node_modules/jquery/dist/jquery.min.js', 
 			  'node_modules/bootstrap/dist/js/bootstrap.min.js',
@@ -68,15 +68,31 @@ gulp.task('buildJs', function() {
 });
 
 // ----------------------------------------
+// WATCH TASKS
+// ----------------------------------------
+gulp.task('watch', function watch() {
+	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], buildCSS);
+	gulp.watch(
+		[
+			'node_modules/jquery/dist/jquery.min.js', 
+		 	'node_modules/bootstrap/dist/js/bootstrap.min.js',
+		 	'node_modules/jquery-match-height/dist/jquery.matchHeight-min.js',
+		 	'source/javascripts/**/*.js'
+		],
+		gulp.series('jsHint', 'buildJs')
+	);
+});
+
+// ----------------------------------------
 // SERVE TASKS
 // ----------------------------------------
-gulp.task('serve', gulp.series(gulp.parallel('buildCSS', 'jsHint', 'buildJs')), function serve () {
-	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], ['buildCSS']);
-});
+// gulp.task('serve', gulp.series(gulp.parallel('buildCSS', 'jsHint', 'buildJs')), function serve () {
+// 	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], ['buildCSS']);
+// });
 
 // ----------------------------------------
 // DEFAULT TASKS
 // ----------------------------------------
 
 // define the default task and add the watch task to it
-gulp.task('default', gulp.series(gulp.parallel('serve')));
+gulp.task('default', gulp.series(gulp.parallel('watch')));
