@@ -138,12 +138,6 @@ gulp.task('dev', gulp.series('cleanDist', gulp.parallel('buildCSS', 'jsHint', 'b
 // Build task
 gulp.task('build', gulp.series('cleanDist', gulp.parallel('buildCSS', 'jsHint', 'buildJs', 'imageCompressions', 'syncFolder')));
 
-// ----------------------------------------
-// SERVE TASKS
-// ----------------------------------------
-// gulp.task('serve', gulp.series(gulp.parallel('buildCSS', 'jsHint', 'buildJs')), function serve () {
-// 	gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'source/sass/**/*.scss'], ['buildCSS']);
-// });
 
 // ----------------------------------------
 // DEFAULT TASKS
