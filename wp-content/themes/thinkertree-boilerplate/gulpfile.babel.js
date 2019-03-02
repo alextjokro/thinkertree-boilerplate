@@ -19,7 +19,6 @@ import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
 import imagemin from 'gulp-imagemin';
 import del from 'del';
-import wpcachebust from 'gulp-wp-cache-bust';
 
 import yargs from 'yargs';
 const PRODUCTION = yargs.argv.prod;
@@ -93,17 +92,6 @@ gulp.task('cleanDist', function() {
 	return del(['dist']);
 });	
 
-// File revisioning / cache bust
-gulp.task('cacheBust', function() {
-	return gulp
-		.src('./wp-content/themes/thinkertree-boilerplate/lib/scripts.php', {base: './'})
-		.pipe(wpcachebust({
-			themeFolder: './wp-content/themes/thinkertree-boilerplate',
-        	rootPath: './'
-		}))
-		.pipe(gulp.dest('./'))
-});
-
 
 // ----------------------------------------
 // WATCH TASKS
@@ -148,7 +136,7 @@ gulp.task('watch', function() {
 gulp.task('dev', gulp.series('cleanDist', gulp.parallel('buildCSS', 'jsHint', 'buildJs', 'imageCompressions', 'syncFolder'), 'watch'));
 
 // Build task
-gulp.task('build', gulp.series('cleanDist', gulp.parallel('buildCSS', 'jsHint', 'buildJs', 'imageCompressions', 'syncFolder', 'cacheBust')));
+gulp.task('build', gulp.series('cleanDist', gulp.parallel('buildCSS', 'jsHint', 'buildJs', 'imageCompressions', 'syncFolder')));
 
 
 // ----------------------------------------
