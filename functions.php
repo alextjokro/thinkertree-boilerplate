@@ -119,12 +119,16 @@ add_action( 'widgets_init', 'thinkertree_boilerplate_widgets_init' );
 /**
  * Enqueue scripts and styles.
  */
+include 'lib/scripts.php';
+
 function thinkertree_boilerplate_scripts() {
-	wp_enqueue_style( 'thinkertree-boilerplate-style', get_stylesheet_uri() . '/dist/stylesheets/main.css', array(), '1.0.0', 'all' );
+	wp_enqueue_style( 'thinkertree-boilerplate-style', MAIN_CSS, array(), '1.0.0', 'all' );
 
 	wp_enqueue_script( 'thinkertree-boilerplate-navigation', get_template_directory_uri() . '/source/javascripts/default/navigation.js', array(), '20151215', true );
 
 	wp_enqueue_script( 'thinkertree-boilerplate-skip-link-focus-fix', get_template_directory_uri() . '/source/javascripts/default/skip-link-focus-fix.js', array(), '20151215', true );
+
+	wp_enqueue_script( 'thinkertree-boilerplate-js', BUNDLE_JS, array(), '1.0.0', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );

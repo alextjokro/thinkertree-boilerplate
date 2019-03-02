@@ -19,6 +19,7 @@ import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
 import imagemin from 'gulp-imagemin';
 import del from 'del';
+import wpcachebust from 'gulp-wp-cache-bust';
 
 import yargs from 'yargs';
 const PRODUCTION = yargs.argv.prod;
@@ -36,7 +37,7 @@ gulp.task('buildCSS', function() {
 		.pipe(plumber()) // Used to display error on Gulp Watch
 		.pipe(sass().on('error', sass.logError))
 		.pipe(gulpif(PRODUCTION, postcss([ autoprefixer ])))
-		.pipe(gulpif(PRODUCTION, rename({ suffix: '.min' })))
+		// .pipe(gulpif(PRODUCTION, rename({ suffix: '.min' })))
 		.pipe(gulpif(PRODUCTION, cleanCSS({compatibility:'ie8'}))) // minify CSS only in PROD mode
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('dist/stylesheets/'));
@@ -60,7 +61,7 @@ gulp.task('buildJs', function() {
 		.pipe(sourcemaps.init()) // Process the original sources
 		.pipe(plumber()) // Used to display error on Gulp Watch
 		.pipe(concat({path: 'bundle.js', cwd: ''}))
-		.pipe(gulpif(PRODUCTION, rename({ suffix: '.min' })))
+		// .pipe(gulpif(PRODUCTION, rename({ suffix: '.min' })))
 		.pipe(gulpif(PRODUCTION, uglify()))
 		.pipe(sourcemaps.write()) // Add the map to modified source.
 		.pipe(gulp.dest('dist/javascripts/'));
@@ -87,9 +88,22 @@ gulp.task('syncFolder', function() {
 		.pipe(gulp.dest('dist'));
 });
 
+// Reset 'dist' folder
 gulp.task('cleanDist', function() {
 	return del(['dist']);
 });	
+
+// File revisioning / cache bust
+gulp.task('cacheBust', function() {
+	return gulp
+		.src('./wp-content/themes/thinkertree-boilerplate/lib/scripts.php', {base: './'})
+		.pipe(wpcachebust({
+			themeFolder: './wp-content/themes/thinkertree-boilerplate',
+        	rootPath: './'
+		}))
+		.pipe(gulp.dest('./'))
+});
+
 
 // ----------------------------------------
 // WATCH TASKS
@@ -134,7 +148,7 @@ gulp.task('watch', function() {
 gulp.task('dev', gulp.series('cleanDist', gulp.parallel('buildCSS', 'jsHint', 'buildJs', 'imageCompressions', 'syncFolder'), 'watch'));
 
 // Build task
-gulp.task('build', gulp.series('cleanDist', gulp.parallel('buildCSS', 'jsHint', 'buildJs', 'imageCompressions', 'syncFolder')));
+gulp.task('build', gulp.series('cleanDist', gulp.parallel('buildCSS', 'jsHint', 'buildJs', 'imageCompressions', 'syncFolder', 'cacheBust')));
 
 
 // ----------------------------------------
