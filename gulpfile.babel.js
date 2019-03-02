@@ -8,7 +8,6 @@ import gulp from 'gulp';
 import sass from 'gulp-sass';
 import postcss from 'gulp-postcss';
 import plumber from 'gulp-plumber';
-import rev from 'gulp-rev';
 import sourcemaps from 'gulp-sourcemaps';
 import autoprefixer from 'autoprefixer';
 import cleanCSS from 'gulp-clean-css'; // to minify CSS
@@ -36,7 +35,6 @@ gulp.task('buildCSS', function() {
 		.pipe(sourcemaps.init()) // Process the original sources
 		.pipe(plumber()) // Used to display error on Gulp Watch
 		.pipe(sass().on('error', sass.logError))
-		// .pipe(rev())
 		.pipe(gulpif(PRODUCTION, postcss([ autoprefixer ])))
 		.pipe(gulpif(PRODUCTION, rename({ suffix: '.min' })))
 		.pipe(gulpif(PRODUCTION, cleanCSS({compatibility:'ie8'}))) // minify CSS only in PROD mode
