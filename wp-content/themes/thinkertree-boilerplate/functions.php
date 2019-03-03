@@ -121,13 +121,17 @@ add_action( 'widgets_init', 'thinkertree_boilerplate_widgets_init' );
  */
 
 function thinkertree_boilerplate_scripts() {
-	wp_enqueue_style( 'thinkertree-boilerplate-style', get_stylesheet_uri() . '/dist/stylesheets/main.css', array(), '1.0.0', 'all' );
 
+	# STYLESHEETS start here
+	wp_enqueue_style( 'thinkertree-boilerplate-style', get_stylesheet_uri() . '/dist/stylesheets/main.css', array(), filemtime( get_stylesheet_uri() . '/dist/stylesheets/main.css' ), 'all' );
+
+	#JAVASCRIPTS start here
 	wp_enqueue_script( 'thinkertree-boilerplate-navigation', get_template_directory_uri() . '/source/javascripts/default/navigation.js', array(), '20151215', true );
 
 	wp_enqueue_script( 'thinkertree-boilerplate-skip-link-focus-fix', get_template_directory_uri() . '/source/javascripts/default/skip-link-focus-fix.js', array(), '20151215', true );
 
-	wp_enqueue_script( 'thinkertree-boilerplate-js', get_template_directory_uri() . '/dist/javascripts/bundle.js', array(), '1.0.0', true );
+	// bundle.js contains jQuery, Bootstrap, matchHeight, and main JS scripts
+	wp_enqueue_script( 'thinkertree-boilerplate-js', get_template_directory_uri() . '/dist/javascripts/bundle.js', array(), filemtime( get_template_directory_uri() . '/dist/javascripts/bundle.js' ), true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
