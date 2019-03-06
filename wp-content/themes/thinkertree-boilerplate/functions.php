@@ -186,6 +186,69 @@ add_filter( 'body_class', 'add_slug_body_class' );
 
 
 /**
+ * Custom Post Type
+ */
+function thinkertree_boilerplate_custom_post_type() {
+ 
+	// Set UI labels for Custom Post Type
+	$labels = array(
+	    'name'                => _x( 'Member Pages', 'Post Type General Name', 'thinkertree_boilerplate' ),
+	    'singular_name'       => _x( 'Member Page', 'Post Type Singular Name', 'thinkertree_boilerplate' ),
+	    'menu_name'           => __( 'Member Pages', 'thinkertree_boilerplate' ),
+	    'parent_item_colon'   => __( 'Parent Member Page', 'thinkertree_boilerplate' ),
+	    'all_items'           => __( 'All Member Pages', 'thinkertree_boilerplate' ),
+	    'view_item'           => __( 'View Member Page', 'thinkertree_boilerplate' ),
+	    'add_new_item'        => __( 'Add New Member Page', 'thinkertree_boilerplate' ),
+	    'add_new'             => __( 'Add New', 'thinkertree_boilerplate' ),
+	    'edit_item'           => __( 'Edit Member Page', 'thinkertree_boilerplate' ),
+	    'update_item'         => __( 'Update Member Page', 'thinkertree_boilerplate' ),
+	    'search_items'        => __( 'Search Member Page', 'thinkertree_boilerplate' ),
+	    'not_found'           => __( 'Not Found', 'thinkertree_boilerplate' ),
+	    'not_found_in_trash'  => __( 'Not found in Trash', 'thinkertree_boilerplate' ),
+	);
+	     
+	// Set other options for Custom Post Type
+	     
+	$args = array(
+	    // 'label'               => __( 'member pages', 'thinkertree_boilerplate' ),
+	    'description'         => __( 'Member only pages', 'thinkertree_boilerplate' ),
+	    'labels'              => $labels,
+	    // Features this CPT supports in Post Editor
+	    'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+	    // You can associate this CPT with a taxonomy or custom taxonomy. 
+	    // 'taxonomies'          => array( '' ),
+	    /* A hierarchical CPT is like Pages and can have
+	     * Parent and child items. A non-hierarchical CPT
+	     * is like Posts.
+	    */ 
+	    'hierarchical'        => false,
+	    'public'              => true,
+	    'show_ui'             => true,
+	    'show_in_menu'        => true,
+	    'show_in_nav_menus'   => true,
+	    'show_in_admin_bar'   => true,
+	    'menu_position'       => 5,
+	    'can_export'          => true,
+	    'has_archive'         => false,
+	    'exclude_from_search' => false,
+	    'publicly_queryable'  => true,
+	    'capability_type'     => 'page',
+	    'rewrite'			  => array('slug' => 'member-pages'),
+	);
+	     
+	// Registering your Custom Post Type
+	register_post_type( 'member_pages', $args );
+	 
+}
+	 
+/* Hook into the 'init' action so that the function
+ * Containing our post type registration is not 
+ * unnecessarily executed. 
+*/	 
+add_action( 'init', 'thinkertree_boilerplate_custom_post_type', 0 );
+
+
+/**
  * Implement the Custom Header feature.
  */
 require get_template_directory() . '/inc/custom-header.php';
