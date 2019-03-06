@@ -83,6 +83,7 @@ if ( ! function_exists( 'thinkertree_boilerplate_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'thinkertree_boilerplate_setup' );
 
+
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
  *
@@ -97,6 +98,7 @@ function thinkertree_boilerplate_content_width() {
 	$GLOBALS['content_width'] = apply_filters( 'thinkertree_boilerplate_content_width', 640 );
 }
 add_action( 'after_setup_theme', 'thinkertree_boilerplate_content_width', 0 );
+
 
 /**
  * Register widget area.
@@ -116,10 +118,10 @@ function thinkertree_boilerplate_widgets_init() {
 }
 add_action( 'widgets_init', 'thinkertree_boilerplate_widgets_init' );
 
+
 /**
  * Enqueue scripts and styles.
  */
-
 function thinkertree_boilerplate_scripts() {
 
 	// CSS Queue
@@ -143,7 +145,6 @@ add_action( 'wp_enqueue_scripts', 'thinkertree_boilerplate_scripts' );
 /**
  * Thumbnail Upscale
  */
-
 function thinkertree_boilerplate_thumbnail_upscale( $default, $orig_w, $orig_h, $new_w, $new_h, $crop ){
     if ( !$crop ) return null; // let the wordpress default function handle this
 	 
@@ -164,7 +165,6 @@ add_filter( 'image_resize_dimensions', 'thinkertree_boilerplate_thumbnail_upscal
 /**
  * Custom Image Sizes
  */
-
 function thinkertree_boilerplate_custom_image_sizes() {
 	// add_image_size('medium-large', 800, 800);
 	// add_image_size('hero-image', 1665, 9999);
@@ -189,7 +189,6 @@ add_filter( 'body_class', 'add_slug_body_class' );
  * Custom Post Type
  */
 function thinkertree_boilerplate_custom_post_type() {
- 
 	// Set UI labels for Custom Post Type
 	$labels = array(
 	    'name'                => _x( 'Member Pages', 'Post Type General Name', 'thinkertree_boilerplate' ),
@@ -238,7 +237,6 @@ function thinkertree_boilerplate_custom_post_type() {
 	     
 	// Registering your Custom Post Type
 	register_post_type( 'member_pages', $args );
-	 
 }
 	 
 /* Hook into the 'init' action so that the function
@@ -246,6 +244,25 @@ function thinkertree_boilerplate_custom_post_type() {
  * unnecessarily executed. 
 */	 
 add_action( 'init', 'thinkertree_boilerplate_custom_post_type', 0 );
+
+
+/**
+ * Set excerpt length
+ */
+// function custom_excerpt_length( $length ) {
+// 	return 30;
+// }
+// add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+
+
+/**
+ * Read More Excerpt link
+ */
+// function new_excerpt_more($more) {
+// 	global $post;
+// 	return '… <a href="'. get_permalink($post->ID) . '" class="read-more-link">' . 'Read More &raquo;' . '</a>';
+// }
+// add_filter('excerpt_more', 'new_excerpt_more');
 
 
 /**
