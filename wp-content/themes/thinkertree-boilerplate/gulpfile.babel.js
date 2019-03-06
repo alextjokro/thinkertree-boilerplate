@@ -54,7 +54,7 @@ gulp.task('jsHint', function() {
 gulp.task('buildJs', function() {
 	return gulp
 		.src(['node_modules/jquery/dist/jquery.min.js', 
-			  'node_modules/bootstrap/dist/js/bootstrap.min.js',
+			  'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
 			  'node_modules/jquery-match-height/dist/jquery.matchHeight-min.js',
 			  'source/javascripts/**/*.js'])
 		.pipe(sourcemaps.init()) // Process the original sources

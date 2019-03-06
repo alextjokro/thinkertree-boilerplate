@@ -122,10 +122,10 @@ add_action( 'widgets_init', 'thinkertree_boilerplate_widgets_init' );
 
 function thinkertree_boilerplate_scripts() {
 
-	# STYLESHEETS start here
+	// CSS Queue
 	wp_enqueue_style( 'thinkertree-boilerplate-style', get_stylesheet_uri() . '/dist/stylesheets/main.css', array(), filemtime( get_stylesheet_uri() . '/dist/stylesheets/main.css' ), 'all' );
 
-	#JAVASCRIPTS start here
+	// JS Queue
 	wp_enqueue_script( 'thinkertree-boilerplate-navigation', get_template_directory_uri() . '/source/javascripts/default/navigation.js', array(), '20151215', true );
 
 	wp_enqueue_script( 'thinkertree-boilerplate-skip-link-focus-fix', get_template_directory_uri() . '/source/javascripts/default/skip-link-focus-fix.js', array(), '20151215', true );
@@ -138,6 +138,52 @@ function thinkertree_boilerplate_scripts() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'thinkertree_boilerplate_scripts' );
+
+
+/**
+ * Thumbnail Upscale
+ */
+
+function thinkertree_boilerplate_thumbnail_upscale( $default, $orig_w, $orig_h, $new_w, $new_h, $crop ){
+    if ( !$crop ) return null; // let the wordpress default function handle this
+	 
+	$aspect_ratio = $orig_w / $orig_h;
+	$size_ratio = max($new_w / $orig_w, $new_h / $orig_h);
+	 
+	$crop_w = round($new_w / $size_ratio);
+	$crop_h = round($new_h / $size_ratio);
+	 
+	$s_x = floor( ($orig_w - $crop_w) / 2 );
+	$s_y = floor( ($orig_h - $crop_h) / 2 );
+	 
+	return array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
+}
+add_filter( 'image_resize_dimensions', 'thinkertree_boilerplate_thumbnail_upscale', 10, 6 );
+
+
+/**
+ * Custom Image Sizes
+ */
+
+function thinkertree_boilerplate_custom_image_sizes() {
+	// add_image_size('medium-large', 800, 800);
+	// add_image_size('hero-image', 1665, 9999);
+}
+add_action('after_setup_theme', 'thinkertree_boilerplate_custom_image_sizes');
+
+
+/**
+ * Page Slug Body Class
+ */
+function add_slug_body_class( $classes ) {
+	global $post;
+	if ( isset( $post ) ) {
+		$classes[] = $post->post_type . '-' . $post->post_name;
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'add_slug_body_class' );
+
 
 /**
  * Implement the Custom Header feature.
