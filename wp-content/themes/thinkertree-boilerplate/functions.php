@@ -44,7 +44,9 @@ if ( ! function_exists( 'thinkertree_boilerplate_setup' ) ) :
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
-			'menu-1' => esc_html__( 'Primary', 'thinkertree-boilerplate' ),
+			'primary_menu' => esc_html__( 'Primary Menu', 'thinkertree-boilerplate' ),
+			// 'secondary_top_menu' => esc_html__( 'Secondary Top Menu', 'thinkertree-boilerplate' ),
+			'footer_menu' => esc_html__( 'Footer Menu', 'thinkertree-boilerplate' ),
 		) );
 
 		/*
