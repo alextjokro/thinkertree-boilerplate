@@ -145,6 +145,14 @@ add_action( 'wp_enqueue_scripts', 'thinkertree_boilerplate_scripts' );
 
 
 /**
+ * Add Options Page in ACF Pro
+ */
+if( function_exists('acf_add_options_page') ) {
+	acf_add_options_page();
+}
+
+
+/**
  * Thumbnail Upscale
  */
 function thinkertree_boilerplate_thumbnail_upscale( $default, $orig_w, $orig_h, $new_w, $new_h, $crop ){
