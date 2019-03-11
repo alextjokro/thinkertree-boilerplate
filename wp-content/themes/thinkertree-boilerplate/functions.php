@@ -127,6 +127,7 @@ add_action( 'widgets_init', 'thinkertree_boilerplate_widgets_init' );
 function thinkertree_boilerplate_scripts() {
 
 	// CSS Queue
+	wp_enqueue_style( 'thinkertree-boilerplate-style', get_stylesheet_uri() . '/dist/stylesheets/bootstrap.css', array(), filemtime( get_stylesheet_uri() . '/dist/stylesheets/bootstrap.css' ), 'all' );
 	wp_enqueue_style( 'thinkertree-boilerplate-style', get_stylesheet_uri() . '/dist/stylesheets/main.css', array(), filemtime( get_stylesheet_uri() . '/dist/stylesheets/main.css' ), 'all' );
 
 	// JS Queue
