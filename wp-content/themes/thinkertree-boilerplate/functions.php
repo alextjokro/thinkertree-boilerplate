@@ -127,8 +127,8 @@ add_action( 'widgets_init', 'thinkertree_boilerplate_widgets_init' );
 function thinkertree_boilerplate_scripts() {
 
 	// CSS Queue
-	wp_enqueue_style( 'thinkertree-boilerplate-style', get_stylesheet_uri() . '/dist/stylesheets/bootstrap.css', array(), filemtime( get_stylesheet_uri() . '/dist/stylesheets/bootstrap.css' ), 'all' );
-	wp_enqueue_style( 'thinkertree-boilerplate-style', get_stylesheet_uri() . '/dist/stylesheets/main.css', array(), filemtime( get_stylesheet_uri() . '/dist/stylesheets/main.css' ), 'all' );
+	wp_enqueue_style( 'bootstrap', get_stylesheet_uri() . '/dist/stylesheets/bootstrap.css', array(), filemtime( get_stylesheet_uri() . '/dist/stylesheets/bootstrap.css' ), 'all' );
+	wp_enqueue_style( 'thinkertree-boilerplate', get_stylesheet_uri() . '/dist/stylesheets/main.css', array(), filemtime( get_stylesheet_uri() . '/dist/stylesheets/main.css' ), 'all' );
 
 	// JS Queue
 	wp_enqueue_script( 'thinkertree-boilerplate-navigation', get_template_directory_uri() . '/source/javascripts/default/navigation.js', array(), '20151215', true );
