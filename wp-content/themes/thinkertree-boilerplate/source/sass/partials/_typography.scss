@@ -1,0 +1,11 @@
+// ----------------------------------------
+// TYPOGRAPHY STYLES
+// ----------------------------------------
+
+/* --- ADD @FONTFACE BELOW IF APPLICABLE --- */
+
+/* ------------- END @FONTFACE ------------- */
+
+html {
+	@include font-smoothing();
+}
