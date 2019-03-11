@@ -31,6 +31,7 @@ const PRODUCTION = yargs.argv.prod;
 gulp.task('buildCSS', function() {
 	return gulp
 		.src(['node_modules/bootstrap/scss/bootstrap.scss',
+			  'node_modules/@fortawesome/fontawesome-free/css/all.min.css',
 			  'source/sass/**/*.scss'])
 		.pipe(sourcemaps.init()) // Process the original sources
 		.pipe(plumber()) // Used to display error on Gulp Watch
