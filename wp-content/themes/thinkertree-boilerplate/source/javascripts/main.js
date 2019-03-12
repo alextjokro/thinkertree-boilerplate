@@ -2,22 +2,23 @@ $(function() {
 
 	function respond() {
 		//Put all responsive functions here
-		
+
 	}
 
-	$(document).ready(function() {
+	$( document ).ready(function() {
 		respond();
 	});
 
-	$(window).load(function() {
+	$(window).on('load', function() {
 
 	});
 
-	$(window).resize(function() {
+	$(window).on('resize', function() {
 		respond();
 	});
 
-	$(window).scroll(function() {
+	$(window).on('scroll', function() {
+
 	});
 
 }(jQuery));
