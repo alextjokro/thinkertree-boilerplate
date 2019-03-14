@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\ConfigurationUI
  */
 
@@ -7,20 +9,41 @@
  * Class WPSEO_Config_Field
  */
 class WPSEO_Config_Field {
-	/** @var string Field name */
+
+	/**
+	 * Field name.
+	 *
+	 * @var string
+	 */
 	protected $field;
 
-	/** @var string Component to use */
+	/**
+	 * Component to use.
+	 *
+	 * @var string
+	 */
 	protected $component;
 
-	/** @var array Properties of this field */
+	/**
+	 * Properties of this field.
+	 *
+	 * @var array
+	 */
 	protected $properties = array();
 
-	/** @var array Field requirements */
+	/**
+	 * Field requirements.
+	 *
+	 * @var array
+	 */
 	protected $requires = array();
 
-	/** @var array|mixed Value of this field */
-	protected $data;
+	/**
+	 * Value of this field.
+	 *
+	 * @var array|mixed
+	 */
+	protected $data = array();
 
 	/**
 	 * WPSEO_Config_Field constructor.

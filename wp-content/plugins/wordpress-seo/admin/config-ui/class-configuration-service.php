@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\ConfigurationUI
  */
 
@@ -8,32 +10,41 @@
  */
 class WPSEO_Configuration_Service {
 
-	/** @var WPSEO_Configuration_Structure */
+	/**
+	 * @var WPSEO_Configuration_Structure
+	 */
 	protected $structure;
 
-	/** @var WPSEO_Configuration_Components */
+	/**
+	 * @var WPSEO_Configuration_Components
+	 */
 	protected $components;
 
-	/** @var WPSEO_Configuration_Storage */
+	/**
+	 * @var WPSEO_Configuration_Storage
+	 */
 	protected $storage;
 
-	/** @var WPSEO_Configuration_Endpoint */
+	/**
+	 * @var WPSEO_Configuration_Endpoint
+	 */
 	protected $endpoint;
 
-	/** @var WPSEO_Configuration_Options_Adapter */
+	/**
+	 * @var WPSEO_Configuration_Options_Adapter
+	 */
 	protected $adapter;
 
 	/**
-	 * Hook into the REST API
+	 * @var WPSEO_Configuration_Translations
 	 */
-	public function register_hooks() {
-		add_action( 'rest_api_init', array( $this, 'initialize' ) );
-	}
+	protected $translations;
 
 	/**
-	 * Register the service and boot handlers
+	 * Hook into the REST API and switch language.
 	 */
 	public function initialize() {
+		$this->set_default_providers();
 		$this->endpoint->register();
 	}
 
@@ -46,6 +57,7 @@ class WPSEO_Configuration_Service {
 		$this->set_components( new WPSEO_Configuration_Components() );
 		$this->set_endpoint( new WPSEO_Configuration_Endpoint() );
 		$this->set_structure( new WPSEO_Configuration_Structure() );
+		$this->set_translations( new WPSEO_Configuration_Translations( WPSEO_Language_Utils::get_user_locale() ) );
 	}
 
 	/**
@@ -95,14 +107,36 @@ class WPSEO_Configuration_Service {
 	}
 
 	/**
+	 * Sets the translations object.
+	 *
+	 * @param WPSEO_Configuration_Translations $translations The translations object.
+	 */
+	public function set_translations( WPSEO_Configuration_Translations $translations ) {
+		$this->translations = $translations;
+	}
+
+	/**
 	 * Populate the configuration
 	 */
 	protected function populate_configuration() {
+		// Switch to the user locale with fallback to the site locale.
+		switch_to_locale( WPSEO_Language_Utils::get_user_locale() );
+
+		// Make sure we have our translations available.
+		wpseo_load_textdomain();
+
+		$this->structure->initialize();
+
 		$this->storage->set_adapter( $this->adapter );
 		$this->storage->add_default_fields();
 
 		$this->components->initialize();
 		$this->components->set_storage( $this->storage );
+
+		// @todo: check if this is really needed, since the switch happens only in the API.
+		if ( function_exists( 'restore_current_locale' ) ) {
+			restore_current_locale();
+		}
 	}
 
 	/**
@@ -112,13 +146,14 @@ class WPSEO_Configuration_Service {
 	 */
 	public function get_configuration() {
 		$this->populate_configuration();
-
-		$fields = $this->storage->retrieve();
-		$steps  = $this->structure->retrieve();
+		$fields       = $this->storage->retrieve();
+		$steps        = $this->structure->retrieve();
+		$translations = $this->translations->retrieve();
 
 		return array(
-			'fields' => $fields,
-			'steps'  => $steps,
+			'fields'       => $fields,
+			'steps'        => $steps,
+			'translations' => $translations,
 		);
 	}
 
